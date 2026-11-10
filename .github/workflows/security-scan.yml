@@ -37,7 +37,7 @@ jobs:
           fi
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '18'
           cache: ${{ steps.check-lockfile.outputs.exists == 'true' && 'npm' || '' }}
@@ -88,7 +88,7 @@ jobs:
           fi
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '18'
           cache: ${{ steps.check-lockfile.outputs.exists == 'true' && 'npm' || '' }}
@@ -168,7 +168,7 @@ jobs:
           fi
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '18'
           cache: ${{ steps.check-lockfile.outputs.exists == 'true' && 'npm' || '' }}
