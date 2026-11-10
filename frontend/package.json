@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@kie-tools/dmn-editor-standalone": "^10.1.0",
-    "@mynaui/icons-react": "^0.3.9",
+    "@mynaui/icons-react": "^0.4.11",
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/postcss": "^4.1.18",
