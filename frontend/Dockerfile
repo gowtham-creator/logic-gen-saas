@@ -1,4 +1,4 @@
-FROM node:25-alpine AS builder
+FROM node:26-alpine AS builder
 
 WORKDIR /app
 
@@ -35,7 +35,7 @@ RUN test -f /app/.next/prerender-manifest.js && echo "prerender-manifest.js foun
 RUN mkdir -p /app/public || true
 
 # Production stage
-FROM node:25-alpine
+FROM node:26-alpine
 
 WORKDIR /app
 
