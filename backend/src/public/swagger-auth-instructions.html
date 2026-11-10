@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Authentication Required</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #3b82f6;
+            border-radius: 4px;
+        }
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        code {
+            background: #e5e7eb;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        .button:hover {
+            background: #2563eb;
+        }
+        .note {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 API Documentation Access</h1>
+        <p>To use the API documentation, you need to authenticate with a JWT token.</p>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Get Your JWT Token</strong>
+            <p>Log in to the application and obtain your JWT token from the authentication response, or use the login endpoint:</p>
+            <code>POST /api/auth/login</code>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Open Swagger UI</strong>
+            <p>Navigate to the API documentation page.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Click "Authorize" Button</strong>
+            <p>In the Swagger UI, click the green <strong>"Authorize"</strong> button at the top of the page.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Enter Your Token</strong>
+            <p>In the authorization dialog:</p>
+            <ul>
+                <li>For <strong>Bearer Auth</strong>: Enter your JWT token (without the "Bearer " prefix)</li>
+                <li>For <strong>API Key Auth</strong>: Enter your API key in the <code>X-API-Key</code> field</li>
+            </ul>
+            <p>Click <strong>"Authorize"</strong> and then <strong>"Close"</strong>.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>Use the API</strong>
+            <p>Now you can use "Try it out" on any endpoint. Your token will be automatically included in requests.</p>
+        </div>
+
+        <a href="/api-docs" class="button">Go to API Documentation →</a>
+
+        <div class="note">
+            <strong>Note:</strong> Your authentication token will be stored in your browser's local storage. 
+            Make sure to log out or clear your browser data when using a shared computer.
+        </div>
+    </div>
+</body>
+</html>
+

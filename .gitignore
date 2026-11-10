@@ -1,0 +1,53 @@
+# Dependencies
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+.next
+out
+*.md
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production
+
+*.pem
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Testing
+coverage
+.nyc_output
+*.lcov
+
+# Logs
+logs
+*.log
+
+# Temporary files
+tmp
+temp
+*.tmp
+*.bak
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Backup directories
+backups/
+*.backup
+
+# Security scan reports
+security-reports/
+*.sarif

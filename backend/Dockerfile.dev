@@ -1,0 +1,23 @@
+FROM node:25-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY tsconfig.json ./
+
+# Install all dependencies (including dev dependencies for development)
+RUN npm install
+
+# Verify tsx is installed
+RUN npm list tsx || npm install -g tsx
+
+# Copy source code (will be overridden by volume mount in docker-compose)
+COPY src ./src
+
+# Expose port
+EXPOSE 3001
+
+# Start development server
+CMD ["npm", "run", "dev"]
+

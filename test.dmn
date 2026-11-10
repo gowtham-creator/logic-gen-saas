@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='utf-8'?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20230324/MODEL/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dmndi="https://www.omg.org/spec/DMN/20230324/DMNDI/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="definitions_e9a7e92c" name="Test" namespace="urn:dmn:test" xsi:schemaLocation="https://www.omg.org/spec/DMN/20230324/MODEL/ https://www.omg.org/spec/DMN/20230324/dmn.xsd" expressionLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/" typeLanguage="https://www.omg.org/spec/DMN/20230324/FEEL/">
+  <itemDefinition id="tApplicant" name="tApplicant" isCollection="false">
+    <itemComponent name="age">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent name="ficoScore">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent name="genXScore">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent name="employmentStatus">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent name="isEmployed">
+      <typeRef>boolean</typeRef>
+    </itemComponent>
+    <itemComponent name="isHomeowner">
+      <typeRef>boolean</typeRef>
+    </itemComponent>
+    <itemComponent name="isRenter">
+      <typeRef>boolean</typeRef>
+    </itemComponent>
+    <itemComponent name="penFedChargeOff">
+      <typeRef>boolean</typeRef>
+    </itemComponent>
+    <itemComponent name="openedTrades">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent name="delinquencyReported">
+      <typeRef>boolean</typeRef>
+    </itemComponent>
+    <itemComponent name="delinquencyTimePeriod">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent name="bankruptcyOccurred">
+      <typeRef>boolean</typeRef>
+    </itemComponent>
+    <itemComponent name="bankruptcyTimePeriod">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent name="chargeOffOccurred">
+      <typeRef>boolean</typeRef>
+    </itemComponent>
+    <itemComponent name="chargeOffTimePeriod">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent name="affinityTier">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent name="tier">
+      <typeRef>string</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <itemDefinition id="tLoan" name="tLoan" isCollection="false">
+    <itemComponent name="loanAmount">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent name="loanType">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent name="pti">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent name="dti">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent name="ltv">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent name="collateral">
+      <typeRef>tCollateral</typeRef>
+    </itemComponent>
+    <itemComponent name="isMissingCollateral">
+      <typeRef>boolean</typeRef>
+    </itemComponent>
+    <itemComponent name="tier">
+      <typeRef>string</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <itemDefinition id="tCollateral" name="tCollateral" isCollection="false">
+    <itemComponent name="carType">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent name="carCondition">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent name="carValue">
+      <typeRef>number</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <inputData id="in_Applicant" name="Applicant">
+    <variable name="Applicant" typeRef="tApplicant" />
+  </inputData>
+  <inputData id="in_Loan" name="Loan">
+    <variable name="Loan" typeRef="tLoan" />
+  </inputData>
+  <inputData id="in_boolean" name="boolean">
+    <variable name="boolean" typeRef="string" />
+  </inputData>
+  <businessKnowledgeModel id="bkm_kMinFico" name="kMinFico">
+    <variable name="kMinFico" typeRef="number" />
+    <encapsulatedLogic>
+      <formalParameter name="primaryFico" typeRef="number" />
+      <formalParameter name="jointFico" typeRef="number" />
+      <literalExpression typeRef="number">
+        <text>min(primaryFico, jointFico)</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
+  <businessKnowledgeModel id="bkm_kCounterByPTI" name="kCounterByPTI">
+    <variable name="kCounterByPTI" typeRef="boolean" />
+    <encapsulatedLogic>
+      <formalParameter name="pti" typeRef="number" />
+      <formalParameter name="tier" typeRef="number" />
+      <literalExpression typeRef="boolean">
+        <text>if tier in [1, 2, 3, 4, 5, 6] then pti &gt; 20 else if tier = 7 then pti &gt; 15 else pti &gt; 10</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
+  <businessKnowledgeModel id="bkm_kCounterByLTV" name="kCounterByLTV">
+    <variable name="kCounterByLTV" typeRef="boolean" />
+    <encapsulatedLogic>
+      <formalParameter name="ltv" typeRef="number" />
+      <formalParameter name="carType" typeRef="string" />
+      <formalParameter name="affinityTier" typeRef="number" />
+      <literalExpression typeRef="boolean">
+        <text>if carType = 'classic' then ltv &gt; 80 else if carType in ['salvaged', 'rebuilt'] then ltv &gt; 40 else if affinityTier in [1..8] then ltv &gt; 135 else if affinityTier = 9 and carType = 'new' then ltv &gt; 135 else if affinityTier = 9 and carType = 'used' then ltv &gt; 125 else if affinityTier = 10 and carType = 'new' then ltv &gt; 125 else ltv &gt; 75</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
+  <businessKnowledgeModel id="bkm_kHighDTIByTier" name="kHighDTIByTier">
+    <variable name="kHighDTIByTier" typeRef="boolean" />
+    <encapsulatedLogic>
+      <formalParameter name="dti" typeRef="number" />
+      <formalParameter name="tier" typeRef="number" />
+      <formalParameter name="applicantType" typeRef="string" />
+      <literalExpression typeRef="boolean">
+        <text>if applicantType = 'renter' and tier in [1..7] then dti &gt; 110 else if applicantType = 'renter' and tier = 8 then dti &gt; 86 else if applicantType = 'homeowner' and tier in [1..3] then dti &gt; 77 else dti &gt; 66</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
+  <businessKnowledgeModel id="bkm_kHasRecentBK" name="kHasRecentBK">
+    <variable name="kHasRecentBK" typeRef="boolean" />
+    <encapsulatedLogic>
+      <formalParameter name="monthsSinceBK" typeRef="number" />
+      <literalExpression typeRef="boolean">
+        <text>monthsSinceBK &lt;= 3</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
+  <businessKnowledgeModel id="bkm_kHasRecentCO" name="kHasRecentCO">
+    <variable name="kHasRecentCO" typeRef="boolean" />
+    <encapsulatedLogic>
+      <formalParameter name="monthsSinceCO" typeRef="number" />
+      <literalExpression typeRef="boolean">
+        <text>monthsSinceCO &lt;= 12</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
+  <businessKnowledgeModel id="bkm_kAnyAbsoluteHardcut" name="kAnyAbsoluteHardcut">
+    <variable name="kAnyAbsoluteHardcut" typeRef="boolean" />
+    <encapsulatedLogic>
+      <formalParameter name="ofacFlag" typeRef="boolean" />
+      <formalParameter name="fraudConcern" typeRef="boolean" />
+      <formalParameter name="deceasedFlag" typeRef="boolean" />
+      <literalExpression typeRef="boolean">
+        <text>ofacFlag or fraudConcern or deceasedFlag</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
+  <businessKnowledgeModel id="bkm_kAuthorizedUserRisk" name="kAuthorizedUserRisk">
+    <variable name="kAuthorizedUserRisk" typeRef="boolean" />
+    <encapsulatedLogic>
+      <formalParameter name="authorizedUserFlag" typeRef="boolean" />
+      <formalParameter name="tier" typeRef="number" />
+      <literalExpression typeRef="boolean">
+        <text>authorizedUserFlag and tier &gt;= 5</text>
+      </literalExpression>
+    </encapsulatedLogic>
+  </businessKnowledgeModel>
+  <decision id="decision_CounterNeeded" name="CounterNeeded">
+    <variable name="CounterNeeded" typeRef="boolean" />
+    <decisionTable hitPolicy="FIRST">
+      <input id="input1" label="LTV" typeRef="number">
+        <inputExpression>
+          <text>Loan.ltv</text>
+        </inputExpression>
+      </input>
+      <input id="input2" label="PTI" typeRef="number">
+        <inputExpression>
+          <text>Loan.pti</text>
+        </inputExpression>
+      </input>
+      <input id="input3" label="Tier" typeRef="number">
+        <inputExpression>
+          <text>Loan.tier</text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="Counter Needed" />
+      <rule>
+        <inputEntry>
+          <text>&lt;= 103</text>
+        </inputEntry>
+        <inputEntry>
+          <text>&gt; 20</text>
+        </inputEntry>
+        <inputEntry>
+          <text>[1..6]</text>
+        </inputEntry>
+        <outputEntry>
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>
+          <text>&gt; 107</text>
+        </inputEntry>
+        <inputEntry>
+          <text>&gt; 15</text>
+        </inputEntry>
+        <inputEntry>
+          <text>7</text>
+        </inputEntry>
+        <outputEntry>
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule>
+        <inputEntry>
+          <text>&gt; 135</text>
+        </inputEntry>
+        <inputEntry>
+          <text>&gt; 10</text>
+        </inputEntry>
+        <inputEntry>
+          <text>8</text>
+        </inputEntry>
+        <outputEntry>
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="diagram_1639402f" name="DRD">
+      <dmndi:DMNShape id="shape_a53609f4" dmnElementRef="in_Applicant">
+        <dc:Bounds x="60" y="40" width="200" height="50" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_c2b40bc6" dmnElementRef="in_Loan">
+        <dc:Bounds x="320" y="40" width="200" height="50" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_da7b6f87" dmnElementRef="in_boolean">
+        <dc:Bounds x="580" y="40" width="200" height="50" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_db3a6b8b" dmnElementRef="bkm_kMinFico">
+        <dc:Bounds x="60" y="200" width="240" height="60" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_2ce82694" dmnElementRef="bkm_kCounterByPTI">
+        <dc:Bounds x="360" y="200" width="240" height="60" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_7a13d2ea" dmnElementRef="bkm_kCounterByLTV">
+        <dc:Bounds x="660" y="200" width="240" height="60" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_83aff01b" dmnElementRef="bkm_kHighDTIByTier">
+        <dc:Bounds x="60" y="280" width="240" height="60" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_f8e015be" dmnElementRef="bkm_kHasRecentBK">
+        <dc:Bounds x="360" y="280" width="240" height="60" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_9089984e" dmnElementRef="bkm_kHasRecentCO">
+        <dc:Bounds x="660" y="280" width="240" height="60" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_894cf9ee" dmnElementRef="bkm_kAnyAbsoluteHardcut">
+        <dc:Bounds x="60" y="360" width="240" height="60" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_a0929b68" dmnElementRef="bkm_kAuthorizedUserRisk">
+        <dc:Bounds x="360" y="360" width="240" height="60" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_329f4195" dmnElementRef="decision_CounterNeeded">
+        <dc:Bounds x="60" y="400" width="200" height="80" />
+        <dmndi:DMNLabel />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="edge_16714a07" dmnElementRef="edge_b061cbd1">
+        <di:waypoint x="420" y="90" />
+        <di:waypoint x="160" y="400" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
