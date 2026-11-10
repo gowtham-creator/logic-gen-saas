@@ -60,7 +60,7 @@ jobs:
           npm audit --json > ../security-reports/npm-audit-${{ matrix.directory }}-$(date +%Y%m%d).json || true
 
       - name: Upload audit results
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: npm-audit-${{ matrix.directory }}
@@ -108,7 +108,7 @@ jobs:
           snyk test --severity-threshold=high || true
 
       - name: Upload Snyk results
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: snyk-results-${{ matrix.directory }}
@@ -219,7 +219,7 @@ jobs:
           echo "Review the artifacts for detailed findings." >> security-summary.md
 
       - name: Upload summary
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: security-summary
           path: security-summary.md
